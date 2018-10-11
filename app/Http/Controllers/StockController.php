@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use CodeItNow\BarcodeBundle\Utils\BarcodeGenerator;
+use App\Stock;
 use App\Category;
 
-class BarcodeController extends Controller
+class StockController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,8 @@ class BarcodeController extends Controller
      */
     public function index()
     {
-        // 
+        $stock = Stock::all();
+        return view('sales.stock_list')->with(['stock'=>$stock,'title'=>'All the stock']);
     }
 
     /**
@@ -25,7 +26,7 @@ class BarcodeController extends Controller
      */
     public function create()
     {
-       return view("sales.get_barcodes")->with(['category'=>Category::all()]);
+        return view('sales.stock')->with(['category'=>Category::all()]);
     }
 
     /**
@@ -36,25 +37,16 @@ class BarcodeController extends Controller
      */
     public function store(Request $request)
     {
-
-        $barcodes = array();
-
-
-        for ($i=0; $i < $request->number; $i++) { 
-            $barcode = new BarcodeGenerator();
-            $barcode->setText($request->name."=".$request->amount."-H");
-            $barcode->setType(BarcodeGenerator::Code128);
-            $barcode->setScale(0);
-            $barcode->setThickness(25);
-            $barcode->setFontSize(10);
-            $code = $barcode->generate();
-            $barcodes[] = '<img src="data:image/png;base64,'.$code.'" /> <br>';
+        $save_stock = new Stock();
+        $save_stock->date_recorded = strtotime(date("Y-m-d"));
+        $save_stock->quantity = $request->quantity;
+        $save_stock->category_id = $request->category_id;
+        try {
+            $save_stock->save();
+            echo "Saved";
+        } catch (\Exception $e) {
+            echo $e->getMessage();
         }
-
-        return view('sales.printbc')->with(['barcodes'=>$barcodes]);       
-        
-
-       
     }
 
     /**

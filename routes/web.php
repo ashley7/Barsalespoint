@@ -19,4 +19,6 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('sales','SalesController');
 	Route::resource('sales_report','SalesReportController');
 	Route::resource('sales_barcodes','BarcodeController');
+	Route::resource('category','CategoryController');
+	Route::resource('stock','StockController');
 });

@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use CodeItNow\BarcodeBundle\Utils\BarcodeGenerator;
 use App\Category;
 
-class BarcodeController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +14,7 @@ class BarcodeController extends Controller
      */
     public function index()
     {
-        // 
+        //
     }
 
     /**
@@ -25,7 +24,7 @@ class BarcodeController extends Controller
      */
     public function create()
     {
-       return view("sales.get_barcodes")->with(['category'=>Category::all()]);
+        return view('sales.category');
     }
 
     /**
@@ -36,25 +35,14 @@ class BarcodeController extends Controller
      */
     public function store(Request $request)
     {
-
-        $barcodes = array();
-
-
-        for ($i=0; $i < $request->number; $i++) { 
-            $barcode = new BarcodeGenerator();
-            $barcode->setText($request->name."=".$request->amount."-H");
-            $barcode->setType(BarcodeGenerator::Code128);
-            $barcode->setScale(0);
-            $barcode->setThickness(25);
-            $barcode->setFontSize(10);
-            $code = $barcode->generate();
-            $barcodes[] = '<img src="data:image/png;base64,'.$code.'" /> <br>';
+        $save_cat = new Category();
+        $save_cat->name = $request->name;
+        try {
+            $save_cat->save();
+            echo "Saved";
+        } catch (\Exception $e) {
+            
         }
-
-        return view('sales.printbc')->with(['barcodes'=>$barcodes]);       
-        
-
-       
     }
 
     /**

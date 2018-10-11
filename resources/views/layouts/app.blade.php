@@ -48,7 +48,7 @@
                             <!-- <li><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li> -->
                         @else
                           <li><a class="nav-link" style="text-transform: uppercase;" href="{{route('sales.create')}}">Sales</a></li>
-                          <!-- <li><a class="nav-link" style="text-transform: uppercase;" href="{{route('cheque.index')}}">cheque</a></li> -->
+                          <li><a class="nav-link" style="text-transform: uppercase;" href="{{route('stock.create')}}">Stock</a></li>
                           <!-- <li><a class="nav-link" style="text-transform: uppercase;" href="{{route('bank_deposite.index')}}">Bank Deposit</a></li> -->
                           <!-- <li><a class="nav-link" style="text-transform: uppercase;" href="{{route('bank_deposite.create')}}">Add Bank Deposit</a></li> -->
                           <!-- <li><a class="nav-link" style="text-transform: uppercase;" href="{{route('bank.index')}}">Bank</a></li> -->
