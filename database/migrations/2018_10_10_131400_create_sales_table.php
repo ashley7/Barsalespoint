@@ -14,6 +14,7 @@ class CreateSalesTable extends Migration
             $table->timestamps();
             $table->integer('user_id')->unsigned();
             $table->string('name');
+            $table->string('size');
             $table->string('date_sold');
             $table->double('amount',10,2);
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');

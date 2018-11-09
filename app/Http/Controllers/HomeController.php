@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\ExpenseAccount;
-use App\Expense;
+use App\PriceTag;
 
 class HomeController extends Controller
 {
@@ -16,7 +15,23 @@ class HomeController extends Controller
 
     public function index()
     {
-      // return view("expense.list")->with(['expense'=>Expense::all(),'title'=>'All the expenses','accounts'=>ExpenseAccount::all()]);
-    	return redirect()->route('sales.create');
+	   	return redirect()->route('sales.create');
+    }
+
+    public function price_tags(Request $request)
+    {
+    	$pricetag = PriceTag::all()->where('barcode',$request->data)->last();
+    	if (empty($pricetag)) {
+    		echo "The barcode you scanned is not in the system.";
+    		return;
+    	}else{
+    		echo "
+    		<table class='table'>
+    		<tr> <td> Name</td> <td> $pricetag->name</td></tr>".
+    		 "<tr> <td> Normal Price</td> <td>UGX ".number_format((double)$pricetag->normal_price)."</td></tr>
+    		 <tr> <td> VIP Price:</td> <td> UGX ". number_format((double)$pricetag->vip_price)."</td></tr>
+    		 </table>
+    		";
+    	}
     }
 }

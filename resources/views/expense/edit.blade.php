@@ -31,6 +31,9 @@
 
                         <label>Particular</label>
                         <input type="text" name="particular" value="{{$expense->particular}}" class="form-control">
+
+                        <label>Quantity</label>
+                        <input type="number" id="size" value="{{$expense->size}}" class="form-control" step="any">
  
                         <label>Amount</label>
                         <input type="text" name="amount" value="{{$expense->amount}}" step="any" class="form-control number">

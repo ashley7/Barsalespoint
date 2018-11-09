@@ -42,9 +42,8 @@ class UserController extends Controller
              $save_user->phone_number=time();
         }else{
            $save_user->phone_number=$request->phone_number; 
-        }
-        
-        $save_user->password=bcrypt(12345);
+        }        
+        $save_user->password=bcrypt($request->phone_number);
         $save_user->save();
         return back()->with(['status'=>'User created']);
 

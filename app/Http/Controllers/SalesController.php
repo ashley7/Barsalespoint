@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Sale;
+use App\PriceTag;
 
 class SalesController extends Controller
 {
@@ -14,8 +15,8 @@ class SalesController extends Controller
      */
     public function index()
     {
-        $sales = Sale::where('user_id',\Auth::user()->id)->orderBy('id','desc')->get();
-        $title = "All sales by ".\Auth::user()->name;
+        $sales = Sale::all();
+        $title = "All sales";
         return view("sales.all_sales")->with(['sales'=>$sales,'title'=>$title]);
     }
 
@@ -36,32 +37,39 @@ class SalesController extends Controller
      * @return \Illuminate\Http\Response  A string
      */
     public function store(Request $request)
-    {
-        $save_sale = new Sale();
-        // name=price 
-        $data = explode("=",$request->data);
-        if (count($data) != 2) {
-            // echo "Invalid data, Operation failed";
+    {       
+        $pricetag = PriceTag::all()->where('barcode',$request->data)->last();
+        if (empty($pricetag)) {
+            echo "The barcode does not exist in the system";
             return;
+        }else{
+            $this->save_sale($pricetag->name,$request->class_price,$request->data,$request->size,$pricetag);    
         }
-
-        $fetach_amount = explode("-",$data[1]);
-        $save_sale->name = $data[0];
-        $date = strtotime(date("Y-m-d"));
-        $save_sale->date_sold = $date;
-        $save_sale->amount = $fetach_amount[0];
-        $save_sale->user_id = \Auth::user()->id;
-        try {
-            if ($fetach_amount[1] == "H") {
-                $save_sale->save();
-                echo "Saved ".$data[0]." = UGX ".number_format($fetach_amount[0]);
-            }
-
-        } catch (\Exception $e) {
-            // echo $e->getMessage()." Operation failed";
-        }
-
     }
+
+
+public function save_sale($name,$class_price,$data,$size,$pricetag)
+{
+    $save_sale = new Sale();
+    $save_sale->name = $name;
+    $price = 0;
+    $save_sale->date_sold = strtotime(date("Y-m-d"));
+    $save_sale->size = $size;
+
+    if ($class_price == "VIP") {
+        $save_sale->amount = $pricetag->vip_price*$size;
+     }
+
+    if ($class_price == "Normal") {
+        $save_sale->amount = $pricetag->normal_price*$size;
+                      
+    }    
+    $save_sale->user_id = \Auth::user()->id;
+    try {
+        $save_sale->save();
+        echo "Saved ".$save_sale->size." ".$save_sale->name."(s) = UGX: ".number_format($save_sale->amount);      
+    } catch (\Exception $e) {}
+}
 
     /**
      * Display the specified resource.

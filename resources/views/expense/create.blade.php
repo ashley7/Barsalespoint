@@ -31,6 +31,10 @@
                         <label>Particular</label>
                         <textarea class="form-control" id="particular" name="particular"></textarea>
 
+
+                        <label>Quantity</label>
+                        <input type="number" id="size" class="form-control" step="any">
+
                         <label>Amount</label>
                         <input type="text"  id="number" name="amount" step="any" class="form-control number">
 
@@ -63,6 +67,7 @@
                 expense_account_id: $("#expense_account_id").val(),
                 particular: $('#particular').val(),
                 amount: $('#number').val(),
+                size: $('#size').val(),
                 voucher_number: $('#voucher_number').val(),
                 person_name: $('#person_name').val(),
                 phone_number: $('#phone_number').val(),                

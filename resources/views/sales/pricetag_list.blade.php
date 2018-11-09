@@ -8,46 +8,46 @@
                
 
                 <div class="card-body">
-                    <h1>{{$title}}</h1>
+                    <h1>All price tags</h1>
 
-                    <a href="{{route('sales.create')}}" style="float: right;" class="btn btn-primary">Create Sales</a>
+                
+                    <a href="{{route('price_tag.create')}}" style="float: right;" class="btn btn-primary">Add Tags</a>
                     <br><br>
+
+ 
 
                     <table class="table table-hover table-striped" id="example">
                         <thead>
                             <th>#</th>
-                            <th>Date</th>
                             <th>Name</th>
-                            <th>Quantity</th>
-                            <th>Amount</th>
-                            <th>Sold By</th>
+                            <th>Barcode number</th>
+                            <th>Normal Price</th> 
+                            <th>VIP Price</th> 
+                            <th>Action</th>                            
                         </thead>
 
-                        <tbody>
-                            <?php $sum = 0; ?>
-                            @foreach($sales as $sale)
+                        <tbody>                         
+                            @foreach($price_tags as $pricetags)
                               <tr>
-                                  <td>{{$sale->id}}</td>
-                                  <td>{{$sale->created_at}}</td>
-                                  <td>{{$sale->name}}</td>
-                                  <td>{{$sale->size}}</td>
-                                  <td>{{number_format($sale->amount)}}</td>
-                                  <td>{{$sale->user->name}}</td>
+                                  <td>{{$pricetags->id}}</td>
+                                  <td>{{$pricetags->name}}</td>
+                                  <td>{{$pricetags->barcode}}</td>
+                                  <td>{{number_format((double)$pricetags->normal_price)}}</td>
+                                  <td>{{number_format((double)$pricetags->vip_price)}}</td>
+                                  <td>
+                                    <form style="float: right;" action="/price_tag/{{$pricetags->id}}" method="POST">
+                                      {{method_field('DELETE')}}
+                                      {{ csrf_field() }}
+                                      <span class="glyphicon glyphicon-trash"></span>
+                                      <input type="submit"  class="btn btn-danger" value="Delete tag"/>
+                                  </form>
+                                      
+                                  </td>
                               </tr>
-
-                              <?php
-                                 $sum = $sum + $sale->amount;
-                               ?>
+ 
                             @endforeach
 
-                            <tr>
-                                <th>Total</th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th>{{number_format($sum)}}</th>
-                                <th></th>
-                            </tr>
+                          
                         </tbody>
                     </table>
                                            

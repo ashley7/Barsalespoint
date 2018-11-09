@@ -48,7 +48,7 @@
                             <!-- <li><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li> -->
                         @else
                           <li><a class="nav-link" style="text-transform: uppercase;" href="{{route('sales.create')}}">Sales</a></li>
-                          <li><a class="nav-link" style="text-transform: uppercase;" href="{{route('stock.create')}}">Stock</a></li>
+                          <!-- <li><a class="nav-link" style="text-transform: uppercase;" href="{{route('stock.create')}}">Stock</a></li> -->
                           <!-- <li><a class="nav-link" style="text-transform: uppercase;" href="{{route('bank_deposite.index')}}">Bank Deposit</a></li> -->
                           <!-- <li><a class="nav-link" style="text-transform: uppercase;" href="{{route('bank_deposite.create')}}">Add Bank Deposit</a></li> -->
                           <!-- <li><a class="nav-link" style="text-transform: uppercase;" href="{{route('bank.index')}}">Bank</a></li> -->
@@ -86,6 +86,14 @@
 
       <script type="text/javascript">
         var el = document.querySelector('input.number');
+        el.addEventListener('keyup', function (event) {
+          if (event.which >= 37 && event.which <= 40) return;
+          this.value = this.value.replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        });
+     </script>
+
+        <script type="text/javascript">
+        var el = document.querySelector('input.next_number');
         el.addEventListener('keyup', function (event) {
           if (event.which >= 37 && event.which <= 40) return;
           this.value = this.value.replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',');

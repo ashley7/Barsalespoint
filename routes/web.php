@@ -5,6 +5,7 @@ Route::get('/', function () {
 Auth::routes();
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('/home', 'HomeController@index')->name('home');
+	Route::post('/price_tags', 'HomeController@price_tags');
 	Route::resource('account','ExpenseaccountController');
 	Route::resource('expense','ExpenseController');
 	Route::resource('reports','ReportsController');
@@ -21,4 +22,5 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('sales_barcodes','BarcodeController');
 	Route::resource('category','CategoryController');
 	Route::resource('stock','StockController');
+	Route::resource('price_tag','PriceTagController');
 });

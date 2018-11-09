@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Expense extends Model
 {
-    protected $fillable = ['voucher_number','amount','particular','expense_account_id','phone_number','person_name'];
+    protected $fillable = ['voucher_number','amount','particular','expense_account_id','phone_number','person_name','size'];
 
     public function expenseaccount()
     {

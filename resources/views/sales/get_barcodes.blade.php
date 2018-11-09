@@ -12,11 +12,11 @@
 
                     <form method="POST" action="{{route('sales_barcodes.store')}}">
                         @csrf
-                        <label>Drink name</label>
+                      <!--   <label>Drink name</label>
                         <input type="tex" name="name" class="form-control">
                         <br>
                         <label>Amount</label>
-                        <input type="number" step="any" name="amount" class="form-control">
+                        <input type="text" name="amount" class="form-control number"> -->
 
                         <label>Number of cards</label>
                         <input type="number" step="any" name="number" class="form-control">

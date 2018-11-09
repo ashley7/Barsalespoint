@@ -12,6 +12,7 @@ class CreateExpensesTable extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->string('date');
+            $table->string('size')->default(0);
             $table->string('voucher_number');          
             $table->string('phone_number')->nullable(); 
             $table->string('person_name')->nullable();

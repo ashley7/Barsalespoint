@@ -27,7 +27,7 @@
                             @foreach($sales as $sale)
                               <tr>
                                   <td>{{$sale->id}}</td>
-                                  <td>{{date("d-M-Y",$sale->date_sold)}}</td>
+                                  <td>{{$sale->created_at}}</td>
                                   <td>{{$sale->name}}</td>
                                   <td>{{number_format($sale->amount)}}</td>
                                   <td>{{$sale->user->name}}</td>

@@ -33,6 +33,7 @@
                         <th>Expense account</th>
                         <th>Name</th>
                         <th>Phone</th>
+                        <th>Quantity</th>
                         <th>Amount</th>
                         <th>Actions</th>
                       </thead>
@@ -47,10 +48,10 @@
                               <td>{{$account->expenseaccount->name}}</td>
                               <td>{{$account->person_name}}</td>
                               <td>{{$account->phone_number}}</td>
+                              <td>{{$account->size}}</td>
                               <td>{{number_format($account->amount)}}</td>
                               <?php $total=$total+$account->amount; ?>
                               <td>
-
                                  <form action="/expense/{{ $account->id }}" method="POST">
                                     {{method_field('DELETE')}}
                                     {{ csrf_field() }}
@@ -61,7 +62,7 @@
                           </tr>
                         @endforeach
                         <tr>
-                            <th>Total</th> <th></th> <th></th> <th></th> <th></th><th></th> <th></th><th><?php echo number_format($total) ?></th><th></th>
+                            <th>Total</th> <th></th> <th></th> <th></th> <th></th> <th></th><th></th> <th></th><th><?php echo number_format($total) ?></th><th></th>
                         </tr>
                       </tbody>
                     </table>          

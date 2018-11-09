@@ -75,6 +75,10 @@ class ExpenseController extends Controller
            $save_expense->person_name=$request->person_name;
        }
 
+       if (!empty($request->size)) {
+           $save_expense->size=$request->size;
+       }
+
        if (!empty($request->amount)) {
           $save_expense->amount = (double)str_replace(",", "", $request->amount);
        }

@@ -39,10 +39,12 @@ class BarcodeController extends Controller
 
         $barcodes = array();
 
+        $time = time();
+
 
         for ($i=0; $i < $request->number; $i++) { 
             $barcode = new BarcodeGenerator();
-            $barcode->setText($request->name."=".$request->amount."-H");
+            $barcode->setText($time."-H");
             $barcode->setType(BarcodeGenerator::Code128);
             $barcode->setScale(0);
             $barcode->setThickness(25);
