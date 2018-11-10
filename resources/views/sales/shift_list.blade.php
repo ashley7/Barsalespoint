@@ -8,46 +8,35 @@
                
 
                 <div class="card-body">
-                    <h5 style="text-transform: uppercase;">{{$title}}</h1>
+                    <h1>All shifts</h1>
 
-                    <a href="{{route('sales.create')}}" style="float: right;" class="btn btn-primary">Create Sales</a>
+                    <a class="btn btn-primary" style="float: right;" href="{{route('work_shifts.create')}}">Add new shift</a>
                     <br><br>
-
+                    
                     <table class="table table-hover table-striped" id="example">
                         <thead>
-                            <th>#</th>
-                            <th>Date</th>
+                            <th>Date created</th>
                             <th>Name</th>
-                            <th>Quantity</th>
-                            <th>Amount</th>
-                            <th>Sold By</th>
+                            <th>Workers</th>
+                            <th>Created by</th>
+                            <th>Action</th>                            
                         </thead>
 
-                        <tbody>
-                            <?php $sum = 0; ?>
-                            @foreach($sales as $sale)
+                        <tbody>                         
+                            @foreach($work_shift as $shifts)
                               <tr>
-                                  <td>{{$sale->id}}</td>
-                                  <td>{{$sale->created_at}}</td>
-                                  <td>{{$sale->name}}</td>
-                                  <td>{{$sale->size}}</td>
-                                  <td>{{number_format($sale->amount)}}</td>
-                                  <td>{{$sale->user->name}}</td>
+                                  <td>{{$shifts->created_at}}</td>
+                                  <td>{{$shifts->name}}</td>
+                                  <td>{{$shifts->description}}</td>                                  
+                                  <td>{{$shifts->user->name}}</td> 
+                                  <td>
+                                    <a class="btn btn-success" href="{{route('work_shifts.show',$shifts->id)}}">Details</a>
+                                  </td>                                
                               </tr>
-
-                              <?php
-                                 $sum = $sum + $sale->amount;
-                               ?>
+ 
                             @endforeach
 
-                            <tr>
-                                <th>Total</th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th>{{number_format($sum)}}</th>
-                                <th></th>
-                            </tr>
+                          
                         </tbody>
                     </table>
                                            
@@ -78,12 +67,10 @@
                     'copy',
                     {
                         extend: 'excel',
-                        messageTop: '{{$title}}'
-                    },
+                     },
                     {
                         extend: 'pdf',
-                        messageTop: '{{$title}}'
-                    },
+                     },
                     {
                         extend: 'print',
                         messageTop: null

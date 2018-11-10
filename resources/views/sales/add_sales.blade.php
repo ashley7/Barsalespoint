@@ -6,14 +6,18 @@
        
             <div class="card">
                 <div class="card-body">                   
-                        <a  href="{{route('sales.index')}}"  class="btn btn-primary">View Sales</a> 
-                        <a  href="{{route('sales_report.create')}}" class="btn btn-info">Generate report</a> 
-                        <a  href="{{route('price_tag.create')}}" class="btn btn-danger">Record price tags</a> 
-                        <a  href="{{route('sales_barcodes.create')}}" class="btn btn-success">Generate barcodes</a> 
+                        <a  href="{{route('work_shifts.create')}}"  class="btn btn-primary">Add new shift</a> 
+                        <a  href="{{route('sales.index')}}"  class="btn btn-warning" style="color: #FFF">View Sales</a>
+
+                        <a  href="{{route('stock_loss.create')}}"  class="btn btn-danger" style="color: #FFF">Record Stock loss</a> 
+                        
+                        <a  href="{{route('price_tag.create')}}" class="btn btn-secondary">Record price tags</a> 
+                        <a  href="{{route('sales_barcodes.create')}}" class="btn btn-success">Generate barcodes</a>
+                        <a  href="{{route('sales_report.create')}}" class="btn btn-info">Generate report</a>
+
                         <br><br>
                          <h1>Record sales</h1>
-
-                  
+                                           
                     <div class="row">     
                         <div class="col-md-6">
                             <label>Place the Computer Cursor here</label>
@@ -24,9 +28,15 @@
 
                             <label>Choose class</label>
                             <select id="class_price" required="required" class="form-control">
-                                                              
                                 <option value="Normal">Normal</option>
                                 <option value="VIP">VIP</option>
+                            </select>
+
+                            <label>Shift</label>
+                            <select id="workshift_id" class="form-control">
+                                @foreach($shift as $shifts)
+                                  <option value="{{$shifts->id}}">{{$shifts->name}} [{{$shifts->description}}-{{$shifts->date}}]  </option>
+                                @endforeach
                             </select>
 
                             <input type="hidden" class="number">
@@ -98,11 +108,12 @@
                 data: {
                      data: $("#data").val(),
                      size: $("#size").val(),                        
+                     workshift_id: $("#workshift_id").val(),                        
                      class_price: $("#class_price").val(),                         
                     _token: "{{Session::token()}}"
                 },
                 success: function(result){
-                    $('#display').text(result);
+                    $('#display').html(result);
                     $('#data').val(" ")
                     size: $("#size").val(1)
                     $("#data").show().focus();

@@ -23,4 +23,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('category','CategoryController');
 	Route::resource('stock','StockController');
 	Route::resource('price_tag','PriceTagController');
+	Route::resource('work_shifts','WorkShiftController');
+	Route::resource('shift_stock','ShiftStockController');
+	Route::resource('stock_loss','StockLossController');
 });

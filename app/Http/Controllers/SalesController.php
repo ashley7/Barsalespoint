@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Sale;
 use App\PriceTag;
+use App\WorkShift;
+use App\ShiftStock;
 
 class SalesController extends Controller
 {
@@ -15,8 +17,14 @@ class SalesController extends Controller
      */
     public function index()
     {
-        $sales = Sale::all();
-        $title = "All sales";
+        $last_shift = WorkShift::all()->where('user_id',\Auth::user()->id)->last();
+        $title = "Sales";
+        $sales = array();
+        if (!empty($last_shift)) {
+            $sales = Sale::all()->where('workshift_id',$last_shift->id);
+            $title = "All sales for ".$last_shift->name." by ".$last_shift->description." on ".$last_shift->date;
+        }
+        
         return view("sales.all_sales")->with(['sales'=>$sales,'title'=>$title]);
     }
 
@@ -27,7 +35,8 @@ class SalesController extends Controller
      */
     public function create()
     {
-        return view("sales.add_sales");
+        $shift = WorkShift::where('user_id',\Auth::user()->id)->orderBy('id','DESC')->get();
+        return view("sales.add_sales")->with(['shift'=>$shift]);
     }
 
     /**
@@ -43,12 +52,12 @@ class SalesController extends Controller
             echo "The barcode does not exist in the system";
             return;
         }else{
-            $this->save_sale($pricetag->name,$request->class_price,$request->data,$request->size,$pricetag);    
+            $this->save_sale($pricetag->name,$request->class_price,$request->data,$request->size,$pricetag,$request->workshift_id);    
         }
     }
 
 
-public function save_sale($name,$class_price,$data,$size,$pricetag)
+public function save_sale($name,$class_price,$data,$size,$pricetag,$workshift_id)
 {
     $save_sale = new Sale();
     $save_sale->name = $name;
@@ -65,9 +74,25 @@ public function save_sale($name,$class_price,$data,$size,$pricetag)
                       
     }    
     $save_sale->user_id = \Auth::user()->id;
+    $save_sale->number = $data;
+    $save_sale->workshift_id = $workshift_id;
     try {
         $save_sale->save();
-        echo "Saved ".$save_sale->size." ".$save_sale->name."(s) = UGX: ".number_format($save_sale->amount);      
+
+        // reduce stock
+
+        $record_check = ShiftStock::all()->where('number',$data)->where('workshift_id',$workshift_id)->last();
+
+        if (!empty($record_check)) {
+
+            $total_sold = Sale::all()->where('workshift_id',$workshift_id)->where('number',$data)->sum('size');
+
+            $record_check->stock_left = ($record_check->old_stock + $record_check->new_stock) - $total_sold;
+            $record_check->save();
+        }
+
+        echo "Saved ".$save_sale->size." ".$save_sale->name."(s) = UGX: ".number_format($save_sale->amount)." <br>".$record_check->stock_left." bottles left";
+
     } catch (\Exception $e) {}
 }
 

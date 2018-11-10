@@ -10,7 +10,11 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
  
-    <script src="{{ asset('js/jquery-3.3.1.js') }}"></script>
+    <!-- <script src="{{ asset('js/jquery-3.3.1.js') }}"></script> -->
+
+    <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
+    <script src="{{asset('js/google_jquery.min.js')}}"></script>
+    <script src="{{asset('js/bootstrap.min.js')}}"></script>
  
   
 
@@ -45,10 +49,10 @@
 
                         @guest
                             <!-- <li><a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a></li> -->
-                            <!-- <li><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li> -->
+                            <li><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li>
                         @else
-                          <li><a class="nav-link" style="text-transform: uppercase;" href="{{route('sales.create')}}">Sales</a></li>
-                          <!-- <li><a class="nav-link" style="text-transform: uppercase;" href="{{route('stock.create')}}">Stock</a></li> -->
+                          <li><a class="nav-link" style="text-transform: uppercase;" href="{{route('sales.create')}}">Record</a></li>
+                          <li><a class="nav-link" style="text-transform: uppercase;" href="{{route('work_shifts.index')}}">Shift</a></li>
                           <!-- <li><a class="nav-link" style="text-transform: uppercase;" href="{{route('bank_deposite.index')}}">Bank Deposit</a></li> -->
                           <!-- <li><a class="nav-link" style="text-transform: uppercase;" href="{{route('bank_deposite.create')}}">Add Bank Deposit</a></li> -->
                           <!-- <li><a class="nav-link" style="text-transform: uppercase;" href="{{route('bank.index')}}">Bank</a></li> -->
